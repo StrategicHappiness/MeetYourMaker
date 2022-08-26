@@ -1,0 +1,16 @@
+{
+  "name": "@strategichappiness/meetyourmaker",
+  "author": "@StrategicHappiness",
+  "license": "MIT",
+  "version": "0.0.1",
+  "description": "StrategicHappiness Meet Your Maker NFT AirDrop SOCKS",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.3",
+    "@remix-project/remixd": "^0.6.5"
+  }
+}

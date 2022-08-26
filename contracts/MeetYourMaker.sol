@@ -1,0 +1,143 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts@4.3.3/access/AccessControl.sol";
+import "@openzeppelin/contracts@4.3.3/security/ReentrancyGuard.sol";
+import "./ERC721A.sol";
+import "@openzeppelin/contracts@4.3.3/utils/Strings.sol";
+import "@openzeppelin/contracts@4.3.3/access/IAccessControl.sol";
+import "@openzeppelin/contracts@4.3.3/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts@4.3.3/token/ERC721/extensions/IERC721Metadata.sol";
+import "@openzeppelin/contracts@4.3.3/token/ERC721/extensions/IERC721Enumerable.sol";
+
+contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
+
+    mapping(address => uint256) public allowlist;
+    uint256 public allowlistCounter;
+    string private _baseTokenURI;
+
+    bytes32 public constant ALLOWER_ROLE = keccak256("ALLOWER_ROLE");
+
+    constructor()
+        ERC721A(
+            "Meet Your Maker",
+            "DAIVINITYSOCKS",
+            1,
+            2500
+        )
+    {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(ALLOWER_ROLE, msg.sender);
+    }
+
+    modifier callerIsUser() {
+        require(tx.origin == msg.sender, "The caller is another contract");
+        _;
+    }
+
+    modifier onlyAdmin() {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "The caller does not have the ADMIN role");
+        _;
+    }
+
+    modifier onlyAllower() {
+        require(hasRole(ALLOWER_ROLE, msg.sender), "The caller does not have the ALLOWER role");
+        _;
+    }
+
+    receive() external payable {
+        revert("Contract does not accept ether transfers");
+    }
+
+    fallback() external payable {
+        revert("Contract does not accept ether transfers");
+    }
+
+    function meetYourMaker() external callerIsUser {
+        require(allowlist[msg.sender] > 0, "Not eligible for mint or already has minted");
+        require(totalSupply() + 1 <= collectionSize, "Reached max supply");
+        allowlist[msg.sender]--;
+        allowlistCounter--;
+        _safeMint(msg.sender, 1);
+    }
+
+    function batchAllowAndMint(address[] memory addresses) external onlyAllower {
+        for (uint256 i = 0; i < addresses.length; i++) {
+            uint256 mints = allowlist[addresses[i]];
+            require(mints == 0, "One of the passed addresses is already on the allow list");
+            require(numberMinted(addresses[i]) == 0, "One of the passed addresses already own the NFT");
+            allowlist[addresses[i]] = 1;
+            _safeMint(addresses[i], 1);
+        }
+    }
+
+    function addToAllowlist(address[] memory addresses) external onlyAllower {
+        for (uint256 i = 0; i < addresses.length; i++) {
+            allowlist[addresses[i]] = 1;
+            allowlistCounter++;
+        }
+    }
+
+    function isEligible(address user) public view returns (bool) {
+        return allowlist[user] > 0;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return _baseTokenURI;
+    }
+
+    function setBaseURI(string calldata baseURI) external onlyAdmin {
+        _baseTokenURI = baseURI;
+    }
+
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        return _baseURI();
+    }
+
+    function setOwnersExplicit(uint256 quantity)
+        external
+        onlyAdmin
+        nonReentrant
+    {
+        _setOwnersExplicit(quantity);
+    }
+
+    function numberMinted(address owner) public view returns (uint256) {
+        return _numberMinted(owner);
+    }
+
+    function getOwnershipData(uint256 tokenId)
+        external
+        view
+        returns (TokenOwnership memory)
+    {
+        return ownershipOf(tokenId);
+    }
+
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override(AccessControl, ERC721A) returns (bool)
+    {
+        return
+        interfaceId == type(IAccessControl).interfaceId ||
+        interfaceId == type(IERC721).interfaceId ||
+        interfaceId == type(IERC721Metadata).interfaceId ||
+        interfaceId == type(IERC721Enumerable).interfaceId ||
+        super.supportsInterface(interfaceId);
+    }
+
+    function grantAllowerRole(address to) public onlyAdmin {
+        grantRole(ALLOWER_ROLE, to);
+    }
+
+    function revokeAllowerRole(address from) public onlyAdmin {
+        revokeRole(ALLOWER_ROLE, from);
+    }
+
+    function transferAdmin(address to) public onlyAdmin {
+        grantRole(DEFAULT_ADMIN_ROLE, to);
+        renounceRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+}
