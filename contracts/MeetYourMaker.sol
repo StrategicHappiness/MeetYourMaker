@@ -2,16 +2,19 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts@4.3.3/access/AccessControl.sol";
-import "@openzeppelin/contracts@4.3.3/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts@4.7.3/access/AccessControl.sol";
+import "@openzeppelin/contracts@4.7.3/security/ReentrancyGuard.sol";
 import "./ERC721A.sol";
-import "@openzeppelin/contracts@4.3.3/utils/Strings.sol";
-import "@openzeppelin/contracts@4.3.3/access/IAccessControl.sol";
-import "@openzeppelin/contracts@4.3.3/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts@4.3.3/token/ERC721/extensions/IERC721Metadata.sol";
-import "@openzeppelin/contracts@4.3.3/token/ERC721/extensions/IERC721Enumerable.sol";
+import "@openzeppelin/contracts@4.7.3/utils/Strings.sol";
+import "@openzeppelin/contracts@4.7.3/access/IAccessControl.sol";
+import "@openzeppelin/contracts@4.7.3/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts@4.7.3/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts@4.7.3/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts@4.7.3/token/ERC721/extensions/IERC721Metadata.sol";
+import "@openzeppelin/contracts@4.7.3/token/ERC721/extensions/IERC721Enumerable.sol";
 
 contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
+    using SafeERC20 for IERC20;
 
     mapping(address => uint256) public allowlist;
     uint256 public allowlistCounter;
@@ -19,16 +22,16 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
 
     bytes32 public constant ALLOWER_ROLE = keccak256("ALLOWER_ROLE");
 
-    constructor()
+    constructor(address owner)
         ERC721A(
             "Meet Your Maker",
-            "DAIVINITYSOCKS",
+            "SOCKS",
             1,
-            2500
+            2500 // Max supply
         )
     {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _setupRole(ALLOWER_ROLE, msg.sender);
+        _setupRole(DEFAULT_ADMIN_ROLE, owner);
+        _setupRole(ALLOWER_ROLE, owner);
     }
 
     modifier callerIsUser() {
@@ -56,6 +59,7 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
 
     function meetYourMaker() external callerIsUser {
         require(allowlist[msg.sender] > 0, "Not eligible for mint or already has minted");
+        require(numberMinted(msg.sender) == 0, "You've already minted your NFT");
         require(totalSupply() + 1 <= collectionSize, "Reached max supply");
         allowlist[msg.sender]--;
         allowlistCounter--;
@@ -67,7 +71,7 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
             uint256 mints = allowlist[addresses[i]];
             require(mints == 0, "One of the passed addresses is already on the allow list");
             require(numberMinted(addresses[i]) == 0, "One of the passed addresses already own the NFT");
-            allowlist[addresses[i]] = 1;
+            require(totalSupply() + 1 <= collectionSize, "Reached max supply");
             _safeMint(addresses[i], 1);
         }
     }
@@ -79,8 +83,8 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
         }
     }
 
-    function isEligible(address user) public view returns (bool) {
-        return allowlist[user] > 0;
+    function isEligible(address user) external view returns (bool) {
+        return numberMinted(msg.sender) == 0 && allowlist[user] > 0;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
@@ -128,16 +132,24 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
         super.supportsInterface(interfaceId);
     }
 
-    function grantAllowerRole(address to) public onlyAdmin {
+    function grantAllowerRole(address to) external onlyAdmin {
         grantRole(ALLOWER_ROLE, to);
     }
 
-    function revokeAllowerRole(address from) public onlyAdmin {
+    function revokeAllowerRole(address from) external onlyAdmin {
         revokeRole(ALLOWER_ROLE, from);
     }
 
-    function transferAdmin(address to) public onlyAdmin {
+    function transferAdmin(address to) external onlyAdmin {
         grantRole(DEFAULT_ADMIN_ROLE, to);
         renounceRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+
+    function rescueTokens(address tokenAddress) external onlyAdmin {
+        IERC20 token = IERC20(tokenAddress);
+        uint256 balance = token.balanceOf(address(this));
+
+        require(balance > 0, "No tokens for given address");
+        token.safeTransfer(msg.sender, balance);
     }
 }
