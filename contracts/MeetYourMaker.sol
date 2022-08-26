@@ -22,7 +22,7 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
     constructor()
         ERC721A(
             "Meet Your Maker",
-            "DAIVINITYSOCKS",
+            "SOCKS",
             1,
             2500
         )
