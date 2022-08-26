@@ -10,7 +10,7 @@
     "remixd": "remixd -s ./ --remix-ide https://remix.ethereum.org/"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.3.3",
+    "@openzeppelin/contracts": "4.7.3",
     "@remix-project/remixd": "^0.6.5"
   }
 }
