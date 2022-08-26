@@ -27,7 +27,7 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
             "Meet Your Maker",
             "SOCKS",
             1,
-            2500
+            2500 // Max supply
         )
     {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -59,6 +59,7 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
 
     function meetYourMaker() external callerIsUser {
         require(allowlist[msg.sender] > 0, "Not eligible for mint or already has minted");
+        require(numberMinted(msg.sender) == 0, "You've already minted your NFT");
         require(totalSupply() + 1 <= collectionSize, "Reached max supply");
         allowlist[msg.sender]--;
         allowlistCounter--;
@@ -70,7 +71,7 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
             uint256 mints = allowlist[addresses[i]];
             require(mints == 0, "One of the passed addresses is already on the allow list");
             require(numberMinted(addresses[i]) == 0, "One of the passed addresses already own the NFT");
-            allowlist[addresses[i]] = 1;
+            require(totalSupply() + 1 <= collectionSize, "Reached max supply");
             _safeMint(addresses[i], 1);
         }
     }
@@ -82,8 +83,8 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
         }
     }
 
-    function isEligible(address user) public view returns (bool) {
-        return allowlist[user] > 0;
+    function isEligible(address user) external view returns (bool) {
+        return numberMinted(msg.sender) == 0 && allowlist[user] > 0;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
@@ -131,15 +132,15 @@ contract MeetYourMaker is AccessControl, ERC721A, ReentrancyGuard {
         super.supportsInterface(interfaceId);
     }
 
-    function grantAllowerRole(address to) public onlyAdmin {
+    function grantAllowerRole(address to) external onlyAdmin {
         grantRole(ALLOWER_ROLE, to);
     }
 
-    function revokeAllowerRole(address from) public onlyAdmin {
+    function revokeAllowerRole(address from) external onlyAdmin {
         revokeRole(ALLOWER_ROLE, from);
     }
 
-    function transferAdmin(address to) public onlyAdmin {
+    function transferAdmin(address to) external onlyAdmin {
         grantRole(DEFAULT_ADMIN_ROLE, to);
         renounceRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
