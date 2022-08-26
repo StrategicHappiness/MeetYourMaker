@@ -70,3 +70,19 @@ For 2500 nfts there will be 2500 metadata files
 Then the baseUri can be set
 
 There is batch mint function yet that mints all nfts in one go
+
+## Contract methods
+
+Argument types:
+- `Array of addresses` - example: `["0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"]`
+- `Address` - example: `0x5B38Da6a701c568545dCfcB03FcB875f56beddC4`
+
+Important write methods:
+- `meetYourMaker` - callable by anyone who is on the allow list to mint their NFT
+- `batchAllowAndMint` - callable by anyone with the ALLOWER role to add someone to the allow list 
+- and mint the NFT for them in batch. Required argument: `Array of addresses`
+- `addToAllowlist` - callable by anyone with the ALLOWER role to add new addresses to the allow list. Required argument: `Array of addresses`
+- `setBaseURI` - callable only by the ADMIN to set NFT JSON. Requires new URI as an argument. Example: `"https://token.com/nft/"`
+- `grantAllowerRole` - callable only by the Admin to grant anyone the ALLOWER role. Required argument: `Address`
+- `revokeAllowerRole` - callable only by the Admin to revoke the ALLOWER role. Required argument: `Address`
+- `transferAdmin` - callable only by the Admin to transfer the ADMIN role. Required argument: `Address`
