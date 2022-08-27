@@ -4,10 +4,6 @@
   "animation_url": "https://gateway.pinata.cloud/ipfs/QmR7VNDcRH2e3yZ2imjL2rAEY2fzkpvrPFfyqfGQFY3ZYv",
   "attributes": [
     {
-      "trait_type": "Maker",
-      "value": "Strategic Happiness"
-    },
-    {
       "trait_type": "Type",
       "value": "Socks"
     },
@@ -21,7 +17,7 @@
     },
     {
       "trait_type": "Price",
-      "value": "∞"
+      "value": "Priceless"
     },
     {
       "trait_type": "Release",
