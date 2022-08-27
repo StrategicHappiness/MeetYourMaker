@@ -6,11 +6,19 @@
   "description": "StrategicHappiness Meet Your Maker NFT AirDrop SOCKS",
   "main": "index.js",
   "private": true,
+  "contributors": [
+    {
+      "name": "𝙆𝙊𝘿𝞝𝙋𝞸𝞝𝙏",
+      "email": "iam@kod3poet.dev",
+      "url": "https://github.com/0xO0O0"
+    }
+  ],
   "scripts": {
     "remixd": "remixd -s ./ --remix-ide https://remix.ethereum.org/"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "4.7.3",
-    "@remix-project/remixd": "^0.6.5"
+    "@openzeppelin/contracts": "^4.3.3",
+    "@remix-project/remixd": "^0.6.5",
+    "forge-std": "^1.1.2"
   }
 }
