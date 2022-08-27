@@ -1,19 +1,19 @@
 {
-  "name": "Meet Your Maker",
-  "description": "Welcome to Happiness :)",
+  "name": "Meet Your Maker 😈",
+  "description": "Welcome to Happiness 😇",
   "animation_url": "https://gateway.pinata.cloud/ipfs/QmR7VNDcRH2e3yZ2imjL2rAEY2fzkpvrPFfyqfGQFY3ZYv",
   "attributes": [
     {
-      "trait_type": "Type",
+      "trait_type": "Swag",
       "value": "Socks"
     },
     {
       "trait_type": "Edition",
-      "value": "DAIVinity"
+      "value": "DAIvinity"
     },
     {
       "trait_type": "Rarity",
-      "value": "1 / 2500"
+      "value": "Ultra Rare"
     },
     {
       "trait_type": "Price",
@@ -22,6 +22,11 @@
     {
       "trait_type": "Release",
       "value": 0,
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Max Mint",
+      "value": 2500,
       "display_type": "number"
     }
   ],
