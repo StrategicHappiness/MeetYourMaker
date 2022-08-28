@@ -25,7 +25,7 @@
     },
     {
       "trait_type": "Happiness",
-      "value": 100,
+      "value": 0.975,
       "display_type": "boost_percentage"
     },
     {
