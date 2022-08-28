@@ -1,11 +1,21 @@
 {
   "name": "Meet Your Maker 😈",
-  "description": "Welcome to Happiness 😇",
+  "description": "Welcome to Happiness!  😇",
   "animation_url": "https://gateway.pinata.cloud/ipfs/QmR7VNDcRH2e3yZ2imjL2rAEY2fzkpvrPFfyqfGQFY3ZYv",
   "attributes": [
     {
       "trait_type": "Swag",
-      "value": "Socks"
+      "value": "Sockx"
+    },
+    {
+      "trait_type": "Happiness",
+      "value": 100,
+ 	    "display_type": "boost_percentage"
+    },
+    {
+      "trait_type": "Style",
+      "value": 85,
+ 	    "display_type": "boost_nummber"
     },
     {
       "trait_type": "Edition",
@@ -13,21 +23,31 @@
     },
     {
       "trait_type": "Rarity",
-      "value": "Ultra Rare"
+      "value": "Ultra-Rare"
+    },
+    {
+      "trait_type": "Holiness",
+      "value": 40,
+ 	    "display_type": "boost_nummber"
+    },
+    {
+      "trait_type": "Stability",
+      "value": 100,
+ 	    "display_type": "number"
     },
     {
       "trait_type": "Price",
       "value": "Priceless"
     },
     {
-      "trait_type": "Release",
-      "value": 0,
-      "display_type": "number"
+      "display_type": "date", 
+      "trait_type": "Release", 
+      "value": 1661572800
     },
     {
-      "trait_type": "Max Mint",
-      "value": 2500,
-      "display_type": "number"
+      "display_type": "number", 
+      "trait_type": "Generation", 
+      "value": 0
     }
   ],
   "background_color": "ffffff"
