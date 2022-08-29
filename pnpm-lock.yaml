@@ -3,10 +3,12 @@ lockfileVersion: 5.4
 specifiers:
   '@openzeppelin/contracts': ^4.3.3
   '@remix-project/remixd': ^0.6.5
+  forge-std: ^1.1.2
 
 dependencies:
   '@openzeppelin/contracts': 4.7.3
   '@remix-project/remixd': 0.6.5
+  forge-std: 1.1.2
 
 packages:
 
@@ -457,6 +459,10 @@ packages:
   /for-in/1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /forge-std/1.1.2:
+    resolution: {integrity: sha512-Wfb0iAS9PcfjMKtGpWQw9mXzJxrWD62kJCUqqLcyuI0+VRtJ3j20XembjF3kS20qELYdXft1vD/SPFVWVKMFOw==}
     dev: false
 
   /form-data/4.0.0:
