@@ -46,6 +46,12 @@
     },
     {
       "display_type": "number",
+      "trait_type": "Minted",
+      "max_value": 2500,
+      "value": 14
+    },
+    {
+      "display_type": "number",
       "trait_type": "Generation",
       "value": 0
     },
