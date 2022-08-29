@@ -42,7 +42,8 @@
     {
       "display_type": "boost_number",
       "trait_type": "Style",
-      "value": 85
+      "max_value": 100,
+      "value": 35
     },
     {
       "display_type": "number",
@@ -57,8 +58,8 @@
     },
     {
       "display_type": "date",
-      "trait_type": "Launched",
-      "value": 1661572800
+      "trait_type": "Genesis",
+      "value": 1645070400
     }
   ]
 }
