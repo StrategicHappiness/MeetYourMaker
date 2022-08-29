@@ -27,23 +27,21 @@
     {
       "trait_type": "Patience",
       "value": "Strategic"
-    }
-  ],
-  "traits": [
+    },
     {
       "display_type": "boost_percentage",
       "trait_type": "Happiness",
-      "max_value": 100,
-      "value": 97
+      "max_value": 300,
+      "value": 300
     },
     {
-      "display_type": "boost_nummber",
+      "display_type": "boost_number",
       "trait_type": "Holiness",
       "value": 65
     },
     {
-      "display_type": "boost_nummber",
-      "trait_type": "Elegamce",
+      "display_type": "boost_number",
+      "trait_type": "Elegance",
       "value": 85
     },
     {
