@@ -2,6 +2,7 @@
   "name": "Meet Your Maker 😈",
   "description": "Welcome to Happiness 😇",
   "animation_url": "https://gateway.pinata.cloud/ipfs/QmR7VNDcRH2e3yZ2imjL2rAEY2fzkpvrPFfyqfGQFY3ZYv",
+  "background_color": "ffffff",
   "attributes": [
     {
       "trait_type": "Swag",
@@ -20,15 +21,40 @@
       "value": "Priceless"
     },
     {
-      "trait_type": "Release",
-      "value": 0,
-      "display_type": "number"
+      "trait_type": "Hands",
+      "value": "Strong"
     },
     {
-      "trait_type": "Max Mint",
-      "value": 2500,
-      "display_type": "number"
+      "trait_type": "Patience",
+      "value": "Strategic"
     }
   ],
-  "background_color": "ffffff"
+  "traits": [
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Happiness",
+      "max_value": 100,
+      "value": 97
+    },
+    {
+      "display_type": "boost_nummber",
+      "trait_type": "Holiness",
+      "value": 65
+    },
+    {
+      "display_type": "boost_nummber",
+      "trait_type": "Elegamce",
+      "value": 85
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Generation",
+      "value": 0
+    },
+    {
+      "display_type": "date",
+      "trait_type": "Unleashed",
+      "value": 1661572800
+    }
+  ]
 }
